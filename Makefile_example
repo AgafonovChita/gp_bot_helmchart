@@ -1,0 +1,23 @@
+minikube_start:
+	minikube start vr-driver=virtualbox
+
+kubectl_postgres:
+	kubectl exec --stdin --tty gpbot-postgresql-0 -- /bin/bash
+
+install_chart_debug:
+		helm install --dry-run --debug\
+		--set botAuth.token="your_bot_token" \
+		--set postgresql.auth.postgresPassword=12345 \
+		--set postgresql.auth.username="your_postgresql_username" \
+		--set postgresql.auth.password="your_user-password" \
+		--set postgresql.auth.database="your database name" \
+		gpchannel  sgp_chart
+
+install_chart_prod:
+		helm install --dry-run --debug\
+		--set botAuth.token="your_bot_token" \
+		--set postgresql.auth.postgresPassword=12345 \
+		--set postgresql.auth.username="your_postgresql_username" \
+		--set postgresql.auth.password="your_user-password" \
+		--set postgresql.auth.database="your database name" \
+		gpchannel  sgp_chart

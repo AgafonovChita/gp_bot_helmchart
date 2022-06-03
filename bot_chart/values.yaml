@@ -5,10 +5,47 @@
 replicaCount: 1
 
 image:
-  repository: nginx
-  pullPolicy: IfNotPresent
+  repository: "811022626/gp_bot_channel"
+  pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "latest"
+  debug: true
+
+postgresql:
+  auth:
+    username: test
+    password: test
+    database: test
+  primary:
+    initdb:
+      scripts:
+        db_init.sql: |
+          CREATE TABLE members (
+              user_id bigint NOT NULL,
+              user_tg_name text,
+              user_tg_nickname text,
+              user_name text,
+              user_position text,
+              user_phone_number text,
+              user_status text,
+              invite_link text,
+              from_user_id bigint,
+              from_user_name text,
+              from_user_nickname text,
+              update_date timestamp with time zone DEFAULT now()
+          );
+          
+          CREATE TABLE requests (
+              user_id bigint NOT NULL,
+              user_name text,
+              user_position text,
+              user_phone_number text,
+              invite_link text
+          );
+
+
+botAuth:
+  token: ""
 
 imagePullSecrets: []
 nameOverride: ""
