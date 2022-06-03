@@ -35,9 +35,25 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: "DB_URL"
-              value: postgresql://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{ .Release.Name }}-postgresql:5432/{{ .Values.postgresql.auth.database }}"
+              value: postgresql://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{ .Release.Name }}-postgresql:5432/{{ .Values.postgresql.auth.database }}
             - name: "BOT_TOKEN"
-              value: { { .Values.botAuth.token } }
+              value: {{ .Values.botAuth.token }}
+            - name: "CHANNEL_ID"
+              value: {{ .Values.botAuth.channelId }}
+            - name: "GSAPI_ID"
+              value: {{ .Values.googleSheets.Id }}
+            - name: "GSAPI_SERVICE_KEY"
+              value: |
+                {"type:" '{{ .Values.googleSheets.ServiceKey.type }}',
+                "project_id:" '{{ .Values.googleSheets.ServiceKey.project_id }}',
+                "private_key_id": '{{ .Values.googleSheets.ServiceKey.private_key_id }}',
+                "private_key:" '{{ .Values.googleSheets.ServiceKey.private_key }}',
+                "client_email:" '{{ .Values.googleSheets.ServiceKey.client_email }}',
+                "client_id":" '{{ .Values.googleSheets.ServiceKey.client_id }}',
+                "auth_url":" '{{ .Values.googleSheets.ServiceKey.auth_url }}',
+                "token_url":"'{{ .Values.googleSheets.ServiceKey.token_url }}',
+                "auth_provider_x509_cert_url:"'{{ .Values.googleSheets.ServiceKey.auth_provider_x509_cert_url }}',
+                "client_x509_cert_url:"'{{ .Values.googleSheets.ServiceKey.client_x509_cert_url}}'}
           ports:
             - name: http
               containerPort: 80

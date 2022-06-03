@@ -6,18 +6,17 @@ kubectl_postgres:
 
 install_chart_debug:
 		helm install --dry-run --debug\
-		--set botAuth.token="your_bot_token" \
-		--set postgresql.auth.postgresPassword=12345 \
-		--set postgresql.auth.username="your_postgresql_username" \
-		--set postgresql.auth.password="your_user-password" \
-		--set postgresql.auth.database="your database name" \
-		gpchannel  sgp_chart
-
-install_chart_prod:
-		helm install --dry-run --debug\
-		--set botAuth.token="your_bot_token" \
-		--set postgresql.auth.postgresPassword=12345 \
-		--set postgresql.auth.username="your_postgresql_username" \
-		--set postgresql.auth.password="your_user-password" \
-		--set postgresql.auth.database="your database name" \
-		gpchannel  sgp_chart
+		--set botAuth.token="" \
+		--set botAuth.channelId="" \
+		--set postgresql.auth.postgresPassword="" \
+		--set postgresql.auth.username="" \
+		--set postgresql.auth.password="" \
+		--set postgresql.auth.database="" \
+		--set googleSheets.Id="" \
+		--set googleSheets.ServiceKey.project_id="" \
+		--set googleSheets.ServiceKey.private_key_id="" \
+		--set googleSheets.ServiceKey.private_key="" \
+		--set googleSheets.ServiceKey.client_email="" \
+		--set googleSheets.ServiceKey.client_id="" \
+		--set googleSheets.ServiceKey.client_x509_cert_url="" \
+		gpchannel  bot_chart

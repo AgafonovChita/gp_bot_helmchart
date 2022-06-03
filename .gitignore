@@ -1,5 +1,6 @@
 !/Makefile
 Makefile
+./bot_chart/charts/
 # IntelliJ project files
 .idea
 *.iml
