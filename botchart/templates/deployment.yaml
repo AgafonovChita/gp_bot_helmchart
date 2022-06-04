@@ -63,7 +63,7 @@ spec:
             exec:
               command:
                 - cat
-                - /app/bot/texts/stickers.py
+                - /app/bot/helth/helth.py
 #            tcpSocket:
 #              port: http
             initialDelaySeconds: 15
