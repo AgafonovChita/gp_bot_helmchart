@@ -1,3 +1,5 @@
+<font size=10>
+
 *предварительно настроить kubernetes
 
 1. Клонировать репозиторий: <code><b> git clone https://github.com/AgafonovChita/gp_bot_helmchart.git </b></code>
@@ -36,3 +38,5 @@ googleSheets.ServiceKey.client_x509_cert_url - </b>
 <p>
 
 3.Выполнить команду <code>make install_chart</code>
+  
+</font>
