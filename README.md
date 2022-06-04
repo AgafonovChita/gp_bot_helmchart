@@ -1,4 +1,4 @@
-<font size="10">
+<font size="8">
 
 *предварительно настроить kubernetes
 
