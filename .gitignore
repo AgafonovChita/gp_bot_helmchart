@@ -1,6 +1,8 @@
+
+dump.sql
 !/Makefile
 Makefile
-./bot_chart/charts/
+botchart/charts/
 # IntelliJ project files
 .idea
 *.iml

@@ -1,6 +1,9 @@
 ### Example user template template
 ### Example user template
 
+dump.sql
+
+
 # IntelliJ project files
 .idea
 *.iml

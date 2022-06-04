@@ -1,0 +1,93 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "botchart.fullname" . }}
+  labels:
+    {{- include "botchart.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "botchart.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "botchart.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "botchart.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: "DB_URL"
+              value: postgresql+asyncpg://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{ .Release.Name }}-postgresql:5432/{{ .Values.postgresql.auth.database }}
+            - name: "BOT_TOKEN"
+              value: {{ .Values.botAuth.token }}
+            - name: "CHANNEL_ID"
+              value: {{ .Values.botAuth.channelId | quote }}
+            - name: "GSAPI_ID"
+              value: {{ .Values.googleSheets.Id }}
+            - name: "GSAPI_SERVICE_KEY"
+              value: |
+                {"type": "{{ .Values.googleSheets.ServiceKey.type }}",
+                "project_id": "{{ .Values.googleSheets.ServiceKey.project_id }}",
+                "private_key_id": "{{ .Values.googleSheets.ServiceKey.private_key_id }}",
+                "private_key": "{{ .Values.googleSheets.ServiceKey.private_key }}",
+                "client_email": "{{ .Values.googleSheets.ServiceKey.client_email }}",
+                "client_id": "{{ .Values.googleSheets.ServiceKey.client_id }}",
+                "auth_url": "{{ .Values.googleSheets.ServiceKey.auth_url }}",
+                "token_uri": "{{ .Values.googleSheets.ServiceKey.token_uri }}",
+                "auth_provider_x509_cert_url": "{{ .Values.googleSheets.ServiceKey.auth_provider_x509_cert_url }}",
+                "client_x509_cert_url": "{{ .Values.googleSheets.ServiceKey.client_x509_cert_url}}"}
+          ports:
+            - name: http
+              containerPort: 80
+              hostPort: 8080
+              protocol: TCP
+          livenessProbe:
+            exec:
+              command:
+                - cat
+                - /app/bot/texts/stickers.py
+#            tcpSocket:
+#              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          readinessProbe:
+#            tcpSocket:
+#              port: http
+            exec:
+              command:
+                - cat
+                - /app/bot/helth/helth.py
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

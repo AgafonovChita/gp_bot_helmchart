@@ -1,17 +1,14 @@
 minikube_start:
 	minikube start vr-driver=virtualbox
 
-kubectl_postgres:
-	kubectl exec --stdin --tty gpbot-postgresql-0 -- /bin/bash
-
 install_chart_debug:
 		helm install --dry-run --debug\
 		--set botAuth.token="" \
 		--set botAuth.channelId="" \
-		--set postgresql.auth.postgresPassword="" \
-		--set postgresql.auth.username="" \
-		--set postgresql.auth.password="" \
-		--set postgresql.auth.database="" \
+		--set postgresql.auth.postgresPassword=\
+		--set postgresql.auth.username= \
+		--set postgresql.auth.password= \
+		--set postgresql.auth.database= \
 		--set googleSheets.Id="" \
 		--set googleSheets.ServiceKey.project_id="" \
 		--set googleSheets.ServiceKey.private_key_id="" \
@@ -19,4 +16,29 @@ install_chart_debug:
 		--set googleSheets.ServiceKey.client_email="" \
 		--set googleSheets.ServiceKey.client_id="" \
 		--set googleSheets.ServiceKey.client_x509_cert_url="" \
-		gpchannel  bot_chart
+		gp_bot ./botchart
+
+install_chart:
+		helm install\
+		--set botAuth.token="" \
+		--set botAuth.channelId="" \
+		--set postgresql.auth.postgresPassword=\
+		--set postgresql.auth.username= \
+		--set postgresql.auth.password= \
+		--set postgresql.auth.database= \
+		--set googleSheets.Id="" \
+		--set googleSheets.ServiceKey.project_id="" \
+		--set googleSheets.ServiceKey.private_key_id="" \
+		--set googleSheets.ServiceKey.private_key="" \
+		--set googleSheets.ServiceKey.client_email="" \
+		--set googleSheets.ServiceKey.client_id="" \
+		--set googleSheets.ServiceKey.client_x509_cert_url="" \
+		gp_bot ./botchart
+
+
+#посмотреть дополнительные сведения о состоянии контейнера
+#kubectl describe pod gp6-botchart-755bc64c8f-knx4d
+
+
+#подключиться к контейнеру
+#kubectl exec --stdin --tty gpbot-postgresql-0 -- /bin/bash
