@@ -24,7 +24,8 @@ googleSheets.ServiceKey.project_id -
 <p>
 googleSheets.ServiceKey.private_key_id - 
 <p>
-googleSheets.ServiceKey.private_key - /*необходимо либо убрать все "\n", либо экранировать "\\\\n"
+googleSheets.ServiceKey.private_key - </b>/*необходимо либо убрать все "\n", либо экранировать "\\\\n"
+<b>
 <p>
 googleSheets.ServiceKey.client_email -
 <p>
