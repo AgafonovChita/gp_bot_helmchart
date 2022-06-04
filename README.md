@@ -8,7 +8,7 @@
 <p>
 <b>botAuth.channelId</b> - id канала, за которым бот будет следить
 <p>
-<b>postgresql.auth.postgresPassword</<b>b> - пароль для суперюзера postgres
+<b>postgresql.auth.postgresPassword</<b> - пароль для суперюзера postgres
 <p>
 <b>postgresql.auth.username</b> - имя пользователя (владелец базы данных)
 <p>
