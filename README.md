@@ -37,6 +37,10 @@ googleSheets.ServiceKey.client_id -
 googleSheets.ServiceKey.client_x509_cert_url - </b>
 <p>
 
-3.Выполнить команду <code>make install_chart</code>
+3.Выполнить команду <code>helm dependency update</code>, чтобы обновить
+зависимые чарты (в нашем случае postgresql)
+<p>
+
+4.Выполнить команду <code>make install_chart</code>
   
 </font>

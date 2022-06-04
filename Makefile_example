@@ -1,6 +1,9 @@
 minikube_start:
 	minikube start vr-driver=virtualbox
 
+#обновить зависимые чарты (postgresql)
+#helm dependency update
+
 install_chart_debug:
 		helm install --dry-run --debug\
 		--set botAuth.token="" \
