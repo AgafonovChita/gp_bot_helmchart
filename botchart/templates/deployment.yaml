@@ -35,25 +35,30 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: "DB_URL"
-              value: postgresql+asyncpg://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{ .Release.Name }}-postgresql:5432/{{ .Values.postgresql.auth.database }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "botchart.fullname" . }}
+                  key: dbUrl
             - name: "BOT_TOKEN"
-              value: {{ .Values.botAuth.token }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "botchart.fullname" . }}
+                  key: botToken
             - name: "CHANNEL_ID"
-              value: {{ .Values.botAuth.channelId | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "botchart.fullname" . }}
+                  key: channelId
             - name: "GSAPI_ID"
-              value: {{ .Values.googleSheets.Id }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "botchart.fullname" . }}
+                  key: googleSheetsID
             - name: "GSAPI_SERVICE_KEY"
-              value: |
-                {"type": "{{ .Values.googleSheets.ServiceKey.type }}",
-                "project_id": "{{ .Values.googleSheets.ServiceKey.project_id }}",
-                "private_key_id": "{{ .Values.googleSheets.ServiceKey.private_key_id }}",
-                "private_key": "{{ .Values.googleSheets.ServiceKey.private_key }}",
-                "client_email": "{{ .Values.googleSheets.ServiceKey.client_email }}",
-                "client_id": "{{ .Values.googleSheets.ServiceKey.client_id }}",
-                "auth_url": "{{ .Values.googleSheets.ServiceKey.auth_url }}",
-                "token_uri": "{{ .Values.googleSheets.ServiceKey.token_uri }}",
-                "auth_provider_x509_cert_url": "{{ .Values.googleSheets.ServiceKey.auth_provider_x509_cert_url }}",
-                "client_x509_cert_url": "{{ .Values.googleSheets.ServiceKey.client_x509_cert_url}}"}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "botchart.fullname" . }}
+                  key: googleSheetsServiceKey
           ports:
             - name: http
               containerPort: 80
@@ -62,19 +67,17 @@ spec:
           livenessProbe:
             exec:
               command:
-                - cat
-                - /app/bot/helth/helth.py
-#            tcpSocket:
-#              port: http
+                - python3
+                - /app/bot/helth/helth_check.py
+                - {{ .Values.botAuth.token }}
             initialDelaySeconds: 15
             periodSeconds: 20
           readinessProbe:
-#            tcpSocket:
-#              port: http
             exec:
               command:
-                - cat
-                - /app/bot/helth/helth.py
+                - python3
+                - /app/bot/helth/helth_check.py
+                - {{ .Values.botAuth.token }}
             initialDelaySeconds: 5
             periodSeconds: 10
           resources:

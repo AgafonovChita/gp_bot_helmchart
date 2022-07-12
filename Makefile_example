@@ -1,5 +1,5 @@
 minikube_start:
-	minikube start vr-driver=virtualbox
+	minikube start
 
 #обновить зависимые чарты (postgresql)
 #helm dependency update

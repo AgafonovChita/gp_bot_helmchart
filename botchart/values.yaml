@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: "811022626/gp_bot_channel"
+  repository: "811022626/gp_bot_kaniko"
   pullPolicy: Always
   # Overrides the image tag whose default is the botchart appVersion.
   tag: "latest"
